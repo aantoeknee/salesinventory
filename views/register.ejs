@@ -1,0 +1,16 @@
+<html>
+    <title><%= title%></title>
+    <body>
+        <header>
+            <h1><%= title%></h1>
+        </header>
+        <div>
+            <hr/>
+            <form action="/users" method="POST">
+            <input placeholder="Username" name="userName"><br><br>
+            <input placeholder="Password" type="password" name="password"><br><br>
+            <button>Submit</button>
+            </form>
+        </div>
+    </body>
+</html>
