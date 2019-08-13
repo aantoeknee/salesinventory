@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const userModel = require('../models/User')
 
 
-router.get('/users',(req, res) => {
+router.get('/login',(req, res) => {
     console.log('get /users')
     res.render('login')
 })
@@ -15,7 +15,6 @@ router.get('/getusers',(req, res, next) => {
     userModel.find((err, users) => {
         console.log('success')
     })
-    next()
 })
 
 router.get('/register', (req, res) => {
