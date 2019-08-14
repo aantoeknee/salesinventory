@@ -10,21 +10,23 @@ const session = require('express-session')
 
 require('dotenv').config()
 
-const {
-    PORT = process.env.PORT || 3000,
-    SESS_NAME = 'tan',
-    SESS_SECRET = 'quietshh'
-} = process.env
+SESS_NAME = 'tan'
+SESS_SECRET = 'quietshh'
+EXPIRETIME = 1000 * 60 * 60 * 2
 
-mongoose.connect(process.env.DB_URI,{useNewUrlParser:true})
-app.listen(PORT,()=>{
-    console.log('Listening to port 3000')
+mongoose.connect(process.env.DB_URI + process.env.DB_NAME,{useNewUrlParser:true},(err) => {
+    console.log('Connecting to ' + process.env.DB_URI + process.env.DB_NAME)
+})
+app.listen(process.env.PORT,()=>{
+    console.log('Listening to port ' + process.env.PORT)
 })
 app.use(session({
     name: SESS_NAME,
     secret: SESS_SECRET,
+    resave: false,
+    saveUninitialized: false,
     cookie: {
-        maxAge: 10000,
+        maxAge: EXPIRETIME,
         sameSite: true,
     }
 }))
