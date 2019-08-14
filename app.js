@@ -6,29 +6,13 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const userModel = require('./models/User')
 
+
 mongoose.connect('mongodb://localhost:27017/spa',{useNewUrlParser:true})
-
-app.use(morgan('short'))
-app.set('view engine', 'ejs');
-app.use(userRouter)
-app.get('/getusers',(req, res) => {
-    console.log('get /allusers')
-
-    userModel.find((err, result) => {
-        if (err) {
-            throw err
-        }
-        else {
-        console.log(result)
-        res.sendStatus(200).json({
-            name: result.username,
-            password: result.password
-        })
-        }
-    })
-    res.end()
-})
 app.listen(3000,()=>{
     console.log('Listening to port 3000')
 })
-
+app.use(morgan('short'))
+app.set('view engine', 'ejs')
+app.use(express.json())
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(userRouter)

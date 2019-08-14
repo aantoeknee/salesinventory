@@ -10,10 +10,21 @@ router.get('/login',(req, res) => {
     res.render('login')
 })
 
-router.get('/getusers',(req, res, next) => {
-    res.setHeader('Content-Type', 'application/json')
-    userModel.find((err, users) => {
-        console.log('success')
+router.post('/user',(req, res, next) => {
+    var username = req.body.username
+    var password = req.body.password
+
+    userModel.find({username: username, password: password}, (err, users) => {
+        if (err || users.length === 0)  { 
+            console.log('error') 
+             res.json({
+                 message: "Invalid User"
+             });
+        }
+        else if (users) { 
+            res.render('home', {user: users[0].username});
+         } 
+        else { console.log('else') }
     })
 })
 
@@ -23,6 +34,13 @@ router.get('/register', (req, res) => {
 })
 
 router.post('/createuser', (req, res) => {
+    var newUser = new userModel(req.body)
+
+    newUser.save((err, user) => {
+        console.log('successfully added')
+        res.sendStatus(200)
+        res.end()
+    })
 
 })
 
