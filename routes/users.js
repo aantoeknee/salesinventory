@@ -25,13 +25,12 @@ router.post('/user',(req, res, next) => {
     userModel.find({username: username, password: password}, (err, users) => {
         if (err || users.length === 0)  { 
             console.log('error') 
-             res.json({
-                 message: "Invalid User"
-             });
+            req.flash('success', 'Invalid Credentials');
+            res.redirect('/home')
         }
         else if (users) { 
             req.session.username = req.body.username
-            // res.render('home', {user: users[0].username});
+            req.flash('success', 'Login Success');
              res.redirect('/home');
          } 
         else { console.log('else') }
@@ -45,10 +44,10 @@ router.get('/register', (req, res) => {
 
 router.get('/home', (req, res) => {
     if(req.session.username) {
-        res.render('home',{user:req.session.username})
+        res.render('home',{user:req.session.username, expressFlash: req.flash('success')})
     }
     else {
-        res.redirect('/login');
+        res.redirect('/login')
     }
 })
 
@@ -77,4 +76,5 @@ router.post('/logout', (req, res) => {
          res.redirect('/login');
     })
 })
+
 module.exports = router

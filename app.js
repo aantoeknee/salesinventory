@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express()
-const userRouter = require('./routes/users.js')
 const mongoose = require('mongoose')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
@@ -8,8 +7,11 @@ const flash = require('express-flash')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 
-require('dotenv').config()
+//Routers
+const userRouter = require('./routes/users.js')
+const productRouter = require('./routes/products.js')
 
+require('dotenv').config()
 SESS_NAME = 'tan'
 SESS_SECRET = 'quietshh'
 EXPIRETIME = 1000 * 60 * 60 * 2
@@ -20,6 +22,7 @@ mongoose.connect(process.env.DB_URI + process.env.DB_NAME,{useNewUrlParser:true}
 app.listen(process.env.PORT,()=>{
     console.log('Listening to port ' + process.env.PORT)
 })
+app.use(cookieParser('secretString'));
 app.use(session({
     name: SESS_NAME,
     secret: SESS_SECRET,
@@ -30,8 +33,10 @@ app.use(session({
         sameSite: true,
     }
 }))
+app.use(flash());
 app.use(morgan('short'))
 app.set('view engine', 'ejs')
 app.use(express.json())
 app.use(bodyParser.urlencoded({extended: false}))
-app.use(userRouter)
+app.use('/',userRouter)
+app.use('/products',productRouter)

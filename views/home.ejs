@@ -2,12 +2,19 @@
     <title>Home</title>
     <body>
         <header>
-            <h1>Welcome <%= user%></h1>
+            <h1>Welcome <%= user%></h1>  
+            <% if ( expressFlash.length > 0 ) { %>
+              <p>Message: <%= expressFlash %> </p>
+            <% } %>
             <div>
                 <form action="/logout" method="POST">
-                        <button>Logout</button>
+                    <button>Logout</button>
                 </form>
-                
+            </div> 
+            <div>
+                <form action="/products" method="GET">
+                    <button>Products</button>
+                </form>
             </div>
         </header>
         <div>
