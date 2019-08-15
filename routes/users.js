@@ -19,6 +19,8 @@ router.get('/login',(req, res) => {
 })
 
 router.post('/user',(req, res, next) => {
+
+    console.log('aaaaaaaa')
     var username = req.body.username
     var password = req.body.password
 
@@ -52,6 +54,7 @@ router.get('/home', (req, res) => {
 })
 
 router.post('/createuser', (req, res) => {
+
     var newUser = new userModel(req.body)
     userModel.find({username: req.body.username},(err, user) => {
         if (user.length === 0) {
@@ -75,6 +78,10 @@ router.post('/logout', (req, res) => {
         }
          res.redirect('/login');
     })
+})
+
+router.post('/auth', (req, res) => {
+    
 })
 
 module.exports = router

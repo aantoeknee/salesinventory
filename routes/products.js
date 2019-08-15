@@ -10,9 +10,21 @@ router.get('/',(req, res) => {
         if(err) {
             console.log(err)
         } else {
-            res.render('products',{data: products})
+            // res.render('products',{data: products})
+             res.json({
+                 data: products,
+                 next: null,
+                 previous: null,
+                 page: 1
+             });
         }
     })
 })
+
+router.post('/createproduct', (req, res) => {
+    console.log('creating product')
+    var newProduct = new productModel(req.body)
+
+});
 
 module.exports = router
